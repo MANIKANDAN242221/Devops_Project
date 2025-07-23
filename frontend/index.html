@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Emoji Voting</title>
+</head>
+<body>
+  <h1>Vote Your Favorite Emoji 😄🔥🥳</h1>
+  <button onclick="vote('happy')">😄 Happy</button>
+  <button onclick="vote('fire')">🔥 Fire</button>
+  <button onclick="vote('party')">🥳 Party</button>
+  <div id="result"></div>
+  <script>
+    async function vote(emoji) {
+      await fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emoji })
+      });
+      getVotes();
+    }
+    async function getVotes() {
+      const res = await fetch('/api/votes');
+      const data = await res.json();
+      document.getElementById('result').innerText = JSON.stringify(data);
+    }
+    getVotes();
+  </script>
+</body>
+</html>
